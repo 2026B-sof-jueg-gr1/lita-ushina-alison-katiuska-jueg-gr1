@@ -27,6 +27,10 @@ Para comprobar la versión de producción:
 npm run build
 ```
 
+El despliegue de GitHub Pages se realiza automáticamente mediante
+`.github/workflows/deploy-pages.yml`. El workflow instala las dependencias,
+ejecuta `npm run build` y publica `dist/`.
+
 ### Funcionalidad disponible por fase
 
 | Fase | Estado | Qué funciona | Cómo usarlo |
