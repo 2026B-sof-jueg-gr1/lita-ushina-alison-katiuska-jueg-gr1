@@ -53,6 +53,10 @@ npm run preview
 5. Selecciona **Embed in page** y usa aproximadamente `960 × 540` o una relación `16:9`.
 6. Guarda y publica el proyecto.
 
+Si itch.io bloquea las cargas por verificación de correo, puede usarse **Add External file** con la URL:
+
+`https://2026b-sof-jueg-gr1.github.io/lita-ushina-alison-katiuska-jueg-gr1/game/`
+
 ## Estructura principal
 
 - `src/main.js`: configuración de Phaser y registro de escenas.
