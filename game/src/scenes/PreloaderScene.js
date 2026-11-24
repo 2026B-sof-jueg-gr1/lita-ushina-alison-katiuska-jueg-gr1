@@ -1,14 +1,25 @@
 import Phaser from 'phaser';
+import darylImage from '../daryl.jpg';
+import darylFrontImage from '../daryl-front.png';
+import darylRightImage from '../daryl-right.png';
+import darylLeftImage from '../daryl-left.png';
 
 export default class PreloaderScene extends Phaser.Scene {
   constructor() {
     super('Preloader');
   }
 
+  preload() {
+    this.load.image('daryl', darylImage);
+    this.load.image('daryl-front', darylFrontImage);
+    this.load.image('daryl-right', darylRightImage);
+    this.load.image('daryl-left', darylLeftImage);
+  }
+
   create() {
     const { width, height } = this.scale;
     this.add.text(width / 2, height / 2 - 28, 'CARGANDO EL UMBRAL...', {
-      color: '#d9e1ff',
+      color: '#e8c98a',
       fontFamily: 'monospace',
       fontSize: '22px'
     }).setOrigin(0.5);

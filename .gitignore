@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+game/node_modules/
+
+# Builds and generated output
+dist/
+game/dist/
+.vite/
+coverage/
+
+# Local environment and configuration
+.env
+.env.*
+!.env.example
+*.local
+
+# Logs and temporary files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.cache/
+tmp/
+temp/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# AI prompts and planning drafts
+**/*prompt*.md
+**/*Prompt*.md
+landing/lista_de_nombres.md

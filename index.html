@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d0d0f" />
+    <meta
+      name="description"
+      content="El Eco de las Alas: una experiencia narrativa interactiva sobre Daryl Dixon, el duelo y la esperanza."
+    />
+    <title>El Eco de las Alas | Interactive Storytelling</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #0d0d0f;
+        --fog: #2a2d34;
+        --red: #7a1c1c;
+        --red-bright: #a72d2d;
+        --gold: #d49b38;
+        --cream: #e8dfcd;
+        --mist: #b9b7b1;
+        --line: rgba(232, 223, 205, 0.13);
+        --display: "Cinzel", Georgia, serif;
+        --text: "Lora", Georgia, serif;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 72% 18%, rgba(212, 155, 56, 0.08), transparent 23rem),
+          linear-gradient(135deg, rgba(122, 28, 28, 0.07), transparent 32rem),
+          var(--ink);
+        color: var(--cream);
+        font-family: var(--text);
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 30;
+      }
+
+      body::before {
+        box-shadow: inset 0 0 10rem 2rem rgba(0, 0, 0, 0.92);
+      }
+
+      body::after {
+        opacity: 0.12;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent 0,
+          transparent 3px,
+          rgba(255, 255, 255, 0.025) 4px
+        );
+      }
+
+      a { color: inherit; }
+      img { display: block; max-width: 100%; }
+
+      .shell {
+        width: min(1180px, calc(100% - 2.5rem));
+        margin-inline: auto;
+        position: relative;
+        z-index: 2;
+      }
+
+      .site-header {
+        height: 78px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .brand {
+        font-family: var(--display);
+        font-size: 0.84rem;
+        letter-spacing: 0.13em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .brand::before {
+        content: "";
+        display: inline-block;
+        width: 0.55rem;
+        height: 0.55rem;
+        margin-right: 0.65rem;
+        border: 1px solid var(--gold);
+        transform: rotate(45deg);
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        gap: clamp(0.8rem, 2vw, 2rem);
+      }
+
+      nav a {
+        color: var(--mist);
+        font-family: var(--display);
+        font-size: 0.64rem;
+        letter-spacing: 0.08em;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: color 180ms ease;
+      }
+
+      nav a:hover,
+      nav a:focus-visible { color: var(--gold); }
+
+      .hero {
+        min-height: calc(100vh - 78px);
+        display: grid;
+        align-items: center;
+        padding: 5rem 0 7rem;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 0.7fr);
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .eyebrow {
+        margin: 0 0 1rem;
+        color: var(--gold);
+        font-family: var(--display);
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+
+      h1, h2, h3 { margin-top: 0; }
+
+      h1 {
+        max-width: 760px;
+        margin-bottom: 1.5rem;
+        font-family: var(--display);
+        font-size: clamp(3.8rem, 9vw, 8.4rem);
+        line-height: 0.88;
+        letter-spacing: -0.055em;
+        text-transform: uppercase;
+        text-shadow: 0 0.1em 1.8rem rgba(122, 28, 28, 0.28);
+      }
+
+      .logline {
+        max-width: 670px;
+        color: var(--mist);
+        font-size: clamp(1rem, 1.8vw, 1.2rem);
+        line-height: 1.85;
+      }
+
+      .hero-actions {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.1rem;
+        margin-top: 2.2rem;
+      }
+
+      .cta {
+        display: inline-flex;
+        min-height: 58px;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem 1.8rem;
+        border: 1px solid var(--gold);
+        background: linear-gradient(135deg, var(--red), #491313);
+        box-shadow: 0 0 2.2rem rgba(212, 155, 56, 0.12);
+        color: #fff7e8;
+        font-family: var(--display);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-decoration: none;
+        transition: 220ms ease;
+      }
+
+      .cta:hover,
+      .cta:focus-visible {
+        background: linear-gradient(135deg, var(--red-bright), var(--red));
+        box-shadow: 0 0 2.8rem rgba(212, 155, 56, 0.32);
+        transform: translateY(-3px);
+      }
+
+      .secondary {
+        min-height: 58px;
+        display: inline-flex;
+        align-items: center;
+        padding: 1rem 1.4rem;
+        border-bottom: 1px solid rgba(212, 155, 56, 0.5);
+        color: var(--mist);
+        font-family: var(--display);
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-decoration: none;
+        transition: 180ms ease;
+      }
+
+      .secondary:hover { color: var(--gold); }
+
+      .hero-art {
+        position: relative;
+        justify-self: end;
+        width: min(390px, 100%);
+      }
+
+      .hero-art::before {
+        content: "";
+        position: absolute;
+        inset: 10% -12% -5% 8%;
+        border: 1px solid rgba(212, 155, 56, 0.24);
+        transform: rotate(3deg);
+      }
+
+      .hero-art img {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-height: 520px;
+        object-fit: cover;
+        object-position: 50% 50%;
+        filter: sepia(0.18) contrast(1.08) brightness(0.78);
+        mask-image: linear-gradient(to bottom, black 72%, transparent 100%);
+      }
+
+      .section {
+        padding: clamp(5rem, 9vw, 8rem) 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      h2 {
+        margin-bottom: 0;
+        font-family: var(--display);
+        font-size: clamp(2.4rem, 6vw, 5.2rem);
+        line-height: 0.98;
+      }
+
+      .section-heading > p {
+        max-width: 360px;
+        color: var(--mist);
+        line-height: 1.7;
+      }
+
+      .essence-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+
+      .essence-card {
+        min-height: 280px;
+        padding: 2rem;
+        border: 1px solid var(--line);
+        background: linear-gradient(145deg, rgba(42, 45, 52, 0.58), rgba(13, 13, 15, 0.9));
+        transition: 220ms ease;
+      }
+
+      .essence-card:hover {
+        border-color: rgba(212, 155, 56, 0.45);
+        transform: translateY(-6px);
+        box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.25);
+      }
+
+      .card-number {
+        color: var(--red-bright);
+        font-family: var(--display);
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+      }
+
+      .essence-card h3 {
+        margin: 4rem 0 1rem;
+        font-family: var(--display);
+        font-size: 1.2rem;
+      }
+
+      .essence-card p {
+        color: var(--mist);
+        font-size: 0.92rem;
+        line-height: 1.75;
+      }
+
+      .pillars {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 1.5rem;
+        border-top: 1px solid var(--line);
+      }
+
+      .pillar {
+        padding: 1.5rem 1.5rem 0 0;
+        border-right: 1px solid var(--line);
+      }
+
+      .pillar:last-child { border-right: 0; padding-left: 1.5rem; }
+      .pillar:nth-child(2) { padding-left: 1.5rem; }
+
+      .pillar strong {
+        display: block;
+        margin-bottom: 0.35rem;
+        color: var(--gold);
+        font-family: var(--display);
+        font-size: 0.75rem;
+        letter-spacing: 0.12em;
+      }
+
+      .pillar span { color: var(--mist); font-size: 0.85rem; }
+
+      .timeline {
+        position: relative;
+        max-width: 900px;
+        margin-inline: auto;
+        padding-left: 4rem;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 1.1rem;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: linear-gradient(var(--gold), var(--red), var(--line));
+      }
+
+      .chapter {
+        position: relative;
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        gap: 2rem;
+        margin-bottom: 2.5rem;
+        padding: 1.5rem;
+        border: 1px solid var(--line);
+        background: rgba(13, 13, 15, 0.72);
+      }
+
+      .chapter::before {
+        content: "";
+        position: absolute;
+        left: -3.28rem;
+        top: 2.05rem;
+        width: 0.65rem;
+        height: 0.65rem;
+        border: 1px solid var(--gold);
+        background: var(--ink);
+        transform: rotate(45deg);
+      }
+
+      .chapter em {
+        color: var(--gold);
+        font-family: var(--display);
+        font-size: 0.67rem;
+        font-style: normal;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .chapter h3 {
+        margin: 0 0 0.55rem;
+        font-family: var(--display);
+        font-size: 1.15rem;
+      }
+
+      .chapter p { margin: 0; color: var(--mist); line-height: 1.7; }
+
+      .rating-card {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        align-items: center;
+        gap: 2.5rem;
+        padding: 2.5rem;
+        border: 1px solid rgba(122, 28, 28, 0.8);
+        background:
+          linear-gradient(110deg, rgba(122, 28, 28, 0.16), transparent),
+          rgba(13, 13, 15, 0.88);
+      }
+
+      .rating {
+        aspect-ratio: 1;
+        display: grid;
+        place-content: center;
+        text-align: center;
+        border: 3px solid var(--cream);
+        box-shadow: inset 0 0 2rem rgba(122, 28, 28, 0.35);
+      }
+
+      .rating strong {
+        font-family: var(--display);
+        font-size: 3.8rem;
+        line-height: 0.9;
+      }
+
+      .rating small {
+        margin-top: 0.6rem;
+        color: var(--gold);
+        font-family: var(--display);
+        font-size: 0.55rem;
+        letter-spacing: 0.12em;
+      }
+
+      .rating-copy h3 {
+        color: var(--gold);
+        font-family: var(--display);
+        font-size: 1.05rem;
+      }
+
+      .rating-copy p {
+        max-width: 760px;
+        color: var(--mist);
+        line-height: 1.8;
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 4rem 0 2rem;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1fr 0.7fr;
+        gap: 3rem;
+      }
+
+      footer h2 {
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        margin-bottom: 1.2rem;
+      }
+
+      footer p {
+        max-width: 650px;
+        color: var(--mist);
+        line-height: 1.75;
+      }
+
+      .footer-links {
+        align-self: end;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .footer-links a {
+        color: var(--gold);
+        font-family: var(--display);
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .copyright {
+        margin-top: 4rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--line);
+        color: #77756f;
+        font-family: var(--display);
+        font-size: 0.58rem;
+        letter-spacing: 0.1em;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .ash {
+        position: fixed;
+        z-index: 25;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: var(--gold);
+        opacity: 0.25;
+        pointer-events: none;
+        animation: ash-fall linear infinite;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 700ms ease, transform 700ms ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      @keyframes ash-fall {
+        from { transform: translate3d(0, -10vh, 0); }
+        to { transform: translate3d(30px, 110vh, 0); }
+      }
+
+      @media (max-width: 850px) {
+        nav a:not(.itch-link) { display: none; }
+        .hero-grid { grid-template-columns: 1fr; }
+        .hero-art {
+          position: absolute;
+          right: -8%;
+          bottom: -2%;
+          width: 260px;
+          opacity: 0.26;
+          z-index: -1;
+        }
+        .hero-content { max-width: 680px; }
+        .essence-grid { grid-template-columns: 1fr; }
+        .essence-card { min-height: 220px; }
+      }
+
+      @media (max-width: 600px) {
+        .shell { width: min(100% - 1.5rem, 1180px); }
+        .site-header { height: 68px; }
+        .brand { font-size: 0.69rem; }
+        .itch-link { font-size: 0.58rem; }
+        .hero { min-height: calc(100svh - 68px); padding: 4rem 0 5rem; }
+        h1 { font-size: clamp(3.25rem, 16vw, 5.2rem); }
+        .hero-actions { align-items: stretch; flex-direction: column; }
+        .cta, .secondary { width: 100%; }
+        .secondary { justify-content: center; }
+        .section-heading { align-items: start; flex-direction: column; }
+        .pillars { grid-template-columns: 1fr; }
+        .pillar, .pillar:nth-child(2), .pillar:last-child {
+          padding: 1.2rem 0;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .timeline { padding-left: 2.5rem; }
+        .timeline::before { left: 0.55rem; }
+        .chapter {
+          grid-template-columns: 1fr;
+          gap: 0.7rem;
+        }
+        .chapter::before { left: -2.12rem; }
+        .rating-card { grid-template-columns: 1fr; }
+        .rating { width: 130px; }
+        .footer-grid { grid-template-columns: 1fr; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .ash { display: none; }
+        .reveal { opacity: 1; transform: none; transition: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="shell site-header">
+      <a class="brand" href="#" aria-label="El Eco de las Alas, inicio">El Eco de las Alas</a>
+      <nav aria-label="Navegación principal">
+        <a href="#historia">La Historia</a>
+        <a href="#capitulos">Capítulos</a>
+        <a href="#honor">Muro de Honor</a>
+        <a class="itch-link" href="#" target="_blank" rel="noopener noreferrer">Perfil en Itch.io</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="shell hero" aria-labelledby="hero-title">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <p class="eyebrow">Una experiencia de storytelling interactivo</p>
+            <h1 id="hero-title">El Eco de las Alas</h1>
+            <p class="logline">
+              En un mundo donde sentir es una sentencia de muerte, un hombre marcado por las
+              cicatrices deberá enfrentar los fantasmas de su pasado. Acompaña a Daryl en un
+              viaje desde el aislamiento más frío hasta descubrir que el verdadero valor no está
+              en sobrevivir solo, sino en atreverse a amar de nuevo.
+            </p>
+            <div class="hero-actions">
+              <a class="cta" href="./game/">INICIAR EL VIAJE</a>
+              <a class="secondary" href="#" target="_blank" rel="noopener noreferrer">VER EN ITCH.IO</a>
+            </div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <img src="./daryl.jpg" alt="" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="historia" aria-labelledby="essence-title">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <div>
+              <p class="eyebrow">La esencia del viaje</p>
+              <h2 id="essence-title">Coraza o vínculo.</h2>
+            </div>
+            <p>Las decisiones no acumulan puntos: dejan huella en la luz, en la música y en la humanidad de Daryl.</p>
+          </div>
+
+          <div class="essence-grid">
+            <article class="essence-card reveal">
+              <span class="card-number">I / ELECCIÓN</span>
+              <h3>De la Coraza al Vínculo</h3>
+              <p>
+                Cada decisión refleja el dilema interno de Daryl: cerrarse tras el orgullo y el miedo,
+                o abrir su corazón aunque volver a sentir pueda doler.
+              </p>
+            </article>
+            <article class="essence-card reveal">
+              <span class="card-number">II / MEMORIA</span>
+              <h3>El Terror de la Memoria</h3>
+              <p>
+                Los caminantes son solo una sombra. La verdadera amenaza vive en la culpa,
+                en el duelo por Beth y en los ecos de una infancia que nunca se perdió del todo.
+              </p>
+            </article>
+            <article class="essence-card reveal">
+              <span class="card-number">III / CAMINO</span>
+              <h3>Los Pilares de su Cambio</h3>
+              <p>
+                La empatía de Carol, la luz de Beth y la hermandad de Rick transforman al lobo solitario
+                en protector de un futuro que aún le pertenece.
+              </p>
+            </article>
+          </div>
+
+          <div class="pillars reveal" aria-label="Personajes que transformaron a Daryl">
+            <div class="pillar"><strong>Carol</strong><span>empatía</span></div>
+            <div class="pillar"><strong>Beth</strong><span>luz</span></div>
+            <div class="pillar"><strong>Rick</strong><span>hermandad</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="capitulos" aria-labelledby="chapters-title">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <div>
+              <p class="eyebrow">Crónica del viaje</p>
+              <h2 id="chapters-title">Cinco recuerdos.</h2>
+            </div>
+            <p>Cada escenario deja al descubierto una nueva herida — y una posible forma de sanar.</p>
+          </div>
+
+          <div class="timeline">
+            <article class="chapter reveal">
+              <em>Capítulo 1</em>
+              <div>
+                <h3>Cicatrices y Silencio — El Bosque / Soledad</h3>
+                <p>Daryl confía en el desierto y en su propia soledad. La niebla conserva los ecos de su infancia.</p>
+              </div>
+            </article>
+            <article class="chapter reveal">
+              <em>Capítulo 2</em>
+              <div>
+                <h3>La Búsqueda de la Esperanza — La Prisión / Responsabilidad</h3>
+                <p>La búsqueda de Sophia y el cuidado de los demás comienzan a despertar su instinto protector.</p>
+              </div>
+            </article>
+            <article class="chapter reveal">
+              <em>Capítulo 3</em>
+              <div>
+                <h3>Cenizas y Canciones — La Cabaña / Dejar ir el pasado</h3>
+                <p>Con Beth, Daryl baja la guardia. Una melodía invita a quemar las cenizas de lo que fue.</p>
+              </div>
+            </article>
+            <article class="chapter reveal">
+              <em>Capítulo 4</em>
+              <div>
+                <h3>El Peso de los Fantasmas — El Duelo / Terror psicológico</h3>
+                <p>La pérdida lo consume. Susurros, estática y sombras lo obligan a mirar de frente la culpa.</p>
+              </div>
+            </article>
+            <article class="chapter reveal">
+              <em>Capítulo 5</em>
+              <div>
+                <h3>El Vuelo de las Alas — El Amanecer / Aceptación</h3>
+                <p>La niebla se disipa. Los fantasmas se vuelven recuerdos luminosos y el pasado una guía.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="rating-title">
+        <div class="shell">
+          <div class="rating-card reveal">
+            <div class="rating" aria-label="Clasificación M, Madurez Emocional">
+              <strong>M</strong>
+              <small>MADUREZ</small>
+            </div>
+            <div class="rating-copy">
+              <h3 id="rating-title">Clasificación M (Madurez Emocional)</h3>
+              <p>
+                Apto para almas resilientes. Contiene altas dosis de nostalgia, terror psicológico,
+                confrontación con el duelo, cenizas del pasado y una evolución de personaje capaz de
+                romper corazones.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="honor">
+      <div class="shell">
+        <div class="footer-grid">
+          <div>
+            <p class="eyebrow">Muro de Honor / Créditos</p>
+            <h2>Gracias a quienes dejan huella.</h2>
+            <p>
+              Con gratitud a los creadores de los recursos visuales y sonoros utilizados bajo licencias
+              libres Creative Commons (CC0), incluyendo sprites pixel art, melodías acústicas y efectos
+              ambientales. Esta obra es un homenaje de fan a fan hacia el universo que la inspiró.
+            </p>
+          </div>
+          <div class="footer-links">
+            <a href="./game/">Jugar ahora →</a>
+            <a href="#" target="_blank" rel="noopener noreferrer">Comunidad en Itch.io →</a>
+          </div>
+        </div>
+        <p class="copyright">El Eco de las Alas · Producción independiente · 2026</p>
+      </div>
+    </footer>
+
+    <script>
+      const revealItems = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      revealItems.forEach((item) => observer.observe(item));
+
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const ashCount = window.innerWidth < 600 ? 10 : 18;
+        for (let i = 0; i < ashCount; i += 1) {
+          const ash = document.createElement("span");
+          ash.className = "ash";
+          ash.style.left = `${Math.random() * 100}vw`;
+          ash.style.animationDuration = `${8 + Math.random() * 12}s`;
+          ash.style.animationDelay = `${-Math.random() * 16}s`;
+          ash.style.opacity = `${0.08 + Math.random() * 0.22}`;
+          document.body.appendChild(ash);
+        }
+      }
+    </script>
+  </body>
+</html>
