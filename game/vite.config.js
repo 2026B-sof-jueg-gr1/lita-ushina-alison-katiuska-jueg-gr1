@@ -18,7 +18,7 @@ function landingMiddleware(req, res, next) {
 }
 
 export default defineConfig({
-  base: '/lita-ushina-alison-katiuska-jueg-gr1/game/',
+  base: './',
   server: {
     fs: {
       allow: [repositoryRoot]

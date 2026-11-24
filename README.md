@@ -45,3 +45,7 @@ El flujo `.github/workflows/deploy-pages.yml` compila el juego y publica:
 - `D` o `Flecha derecha`: moverse a la derecha.
 - `E` o `Espacio`: abrir y cerrar recuerdos.
 - `M` o `Esc`: volver al menú de capítulos.
+
+## Publicar en itch.io
+
+El paquete HTML del juego se genera desde `game/dist/`. Ejecuta `npm run build` dentro de `game/`, comprime el contenido de `dist/` e súbelo a itch.io marcándolo como ejecutable en el navegador.
