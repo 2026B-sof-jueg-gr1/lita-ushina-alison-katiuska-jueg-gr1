@@ -46,14 +46,16 @@ npm run preview
 
 ## Subir a itch.io
 
-1. Ejecuta `npm run build`.
-2. Comprime el contenido de `dist/`, no la carpeta `dist/` completa: `index.html` y `assets/` deben estar en la raíz del ZIP.
-3. En itch.io, crea o abre el proyecto y selecciona **HTML** como tipo de publicación.
-4. Sube el ZIP en **Uploads** y activa **This file will be played in the browser**.
-5. Selecciona **Embed in page** y usa aproximadamente `960 × 540` o una relación `16:9`.
-6. Guarda y publica el proyecto.
+1. Ejecuta `npm run build:itch`.
+2. Sube `dist-itch/index.html` directamente en **Uploads**. Es un HTML autocontenido, sin archivos externos.
+3. En itch.io, confirma que **Kind of project** sea **HTML**.
+4. Elimina las cargas antiguas y marca **This file will be played in the browser** para el HTML.
+5. Selecciona **Embed in page** y usa `960 × 540` o una relación `16:9`.
+6. Guarda y vuelve a cargar la página del juego.
 
-Si itch.io bloquea las cargas por verificación de correo, puede usarse **Add External file** con la URL:
+Si prefieres subir un ZIP, coloca `index.html` directamente en la raíz del ZIP. **Add External file** solo ofrece una descarga, no integra el juego en el reproductor de itch.io.
+
+La versión de GitHub Pages se puede jugar también en:
 
 `https://2026b-sof-jueg-gr1.github.io/lita-ushina-alison-katiuska-jueg-gr1/game/`
 

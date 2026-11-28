@@ -48,6 +48,6 @@ El flujo `.github/workflows/deploy-pages.yml` compila el juego y publica:
 
 ## Publicar en itch.io
 
-El paquete HTML del juego se genera desde `game/dist/`. Ejecuta `npm run build` dentro de `game/`, comprime el contenido de `dist/` e súbelo a itch.io marcándolo como ejecutable en el navegador.
+Para itch.io, ejecuta `npm run build:itch` dentro de `game/` y sube `game/dist-itch/index.html` como HTML reproducible en el navegador. El archivo es autocontenido para evitar errores de carga de recursos en itch.io.
 
-También puede enlazarse directamente desde itch.io mediante **Add External file** usando la URL `https://2026b-sof-jueg-gr1.github.io/lita-ushina-alison-katiuska-jueg-gr1/game/`.
+La versión de GitHub Pages también está disponible en `https://2026b-sof-jueg-gr1.github.io/lita-ushina-alison-katiuska-jueg-gr1/game/`.
